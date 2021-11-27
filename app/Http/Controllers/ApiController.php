@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Todo;
+use function GuzzleHttp\Promise\all;
 
 class ApiController extends Controller
 {
@@ -32,8 +33,14 @@ class ApiController extends Controller
         return $array;
     }
 
-    public function createAllTodos() {
+    public function readAllTodos() {
+        $array = ['error' => ''];
 
+        $todos = Todo::all();
+
+        $array['list'] = Todo::all();
+
+        return $array;
     }
 
     public function readTodo() {
