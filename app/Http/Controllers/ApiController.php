@@ -77,7 +77,7 @@ class ApiController extends Controller
 
         $title = $request->input('title');
         $done = $request->input('done');
-        
+
         $todo = Todo::find($id);
 
         if ($todo) {
@@ -99,8 +99,15 @@ class ApiController extends Controller
         return $array;
     }
 
-    public function deleteTodo()
+    public function deleteTodo($id)
     {
+        $array = ['error' => ''];
 
+        $todo = Todo::find($id);
+        $todo->delete();
+
+        // $todo->destroy($id);
+
+        return $array;
     }
 }
