@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
 
@@ -35,6 +37,29 @@ class AuthController extends Controller
         $newUser->save();
 
 
+
+        return $array;
+    }
+
+    public function login(Request $request)
+    {
+        $array = ['error' => ''];
+
+        $creds = $request->only('email', 'password');
+
+        if (Auth::attempt($creds)) {
+
+            $user = User::where('email', $creds['email'])->first();
+
+            $item = time().rand(0, 9999);
+
+            $token = $user->createToken($item)->plainTextToken;
+
+            $array['token'] = $token;
+
+        } else {
+            $array['error'] = 'E-mail e/ou senha incorretos.';
+        }
 
         return $array;
     }

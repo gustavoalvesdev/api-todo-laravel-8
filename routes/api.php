@@ -10,10 +10,14 @@ Route::get('/ping', function () {
         'pong' => true,
     ];
 });
+Route::get('/unauthenticated', function() {
+    return ['error' => 'Usuário não logado!'];
+})->name('login');
 
 Route::post('/user', [AuthController::class, 'create']);
+Route::post('/auth', [AuthController::class, 'login']);
 
-Route::post('/todo', [ApiController::class, 'createTodo']);
+Route::middleware('auth:sanctum')->post('/todo', [ApiController::class, 'createTodo']);
 Route::get('/todos', [ApiController::class, 'readAllTodos']);
 Route::get('/todo/{id}', [ApiController::class, 'readTodo']);
 Route::put('/todo/{id}', [ApiController::class, 'updateTodo']);
