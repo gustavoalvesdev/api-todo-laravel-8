@@ -15,6 +15,7 @@ Route::get('/unauthenticated', function() {
 })->name('login');
 
 Route::post('/user', [AuthController::class, 'create']);
+Route::middleware('auth:sanctum')->get('/auth/logout', [AuthController::class, 'logout']);
 Route::post('/auth', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->post('/todo', [ApiController::class, 'createTodo']);
